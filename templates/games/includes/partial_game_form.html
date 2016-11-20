@@ -1,0 +1,22 @@
+{% load widget_tweaks %} 
+    
+{% for field in form %}
+    {% if field == form.image %}
+        <div class="form-group label-static">
+            <label for="id_image" class="control-label">Image</label>
+            <input type="file" name="image" id="id_image">
+            <input type="text" readonly="" class="form-control" placeholder="Browse2...">
+            {% for error in field.errors %}
+                <span class="label label-warning">{{ error }}</span>            
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="form-group label-static">
+            <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}</label> 
+            {% render_field field class="form-control" %} 
+            {% for error in field.errors %}
+                <span class="label label-warning">{{ error }}</span>            
+            {% endfor %}
+        </div>
+    {% endif %}    
+{% endfor %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'js/games.js' %}"></script>
+{% endblock %}
+
+{% block content %}    
+    <h1 class="page-header">Games</h1>    
+    <p>
+        <button type="button" class="btn btn-raised btn-primary js-create-game" data-url="{% url 'game_create' %}">
+            <span class="glyphicon glyphicon-plus"></span>
+            New Game
+        </button>
+    </p>
+
+    <div id="table-list">
+        {% include 'games/includes/partial_game_list.html' %}
+    </div>  
+{% endblock %}

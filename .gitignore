@@ -1,0 +1,15 @@
+.idea
+idea
+.idea/
+idea/
+*.pyc
+.pyc
+__pycache__/
+__pycache__
+*.py[cod]
+*.log
+*.pot
+.vscode/
+.env
+node_modules/
+.DS_Store

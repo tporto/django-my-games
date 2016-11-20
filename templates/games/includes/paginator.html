@@ -1,0 +1,23 @@
+{% if games.has_other_pages %}
+    <ul class="pager">
+        {% if games.has_previous %}
+            <li><a class="withripple" href="?page={{ games.previous_page_number }}">Previous</a></li>
+        {% else %}
+            <li class="disabled"><span>Previous</span></li>
+        {% endif %}
+
+        {% for i in games.paginator.page_range %}
+            {% if games.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if games.has_next %}
+            <li><a class="withripple" href="?page={{ games.next_page_number }}">Next</a></li>
+        {% else %}
+            <li class="disabled"><span>Next</span></li>
+        {% endif %}
+    </ul>
+{% endif %}
