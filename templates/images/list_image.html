@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block javascript %}
+    <script src="{% static 'js/games.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1 class="page-header">Images</h1>
+    <p>
+        <a href="{% url 'image_create' %}" class="btn btn-raised btn-primary">
+            <span class="glyphicon glyphicon-plus"></span>
+            New image
+        </a>        
+    </p>
+    <br>
+    <div class="list-group" id="photos">
+        {% for i in images %}
+            <div class="list-group-item">
+                <div class="row-picture">
+                    <img src="{{ i.file.url }}" class="circle" alt="icon" />
+                </div>
+                <div class="row-content">
+                    <h4 class="list-group-item-heading">{{ i.title }}</h4>
+                    <p class="list-group-item-text">{{ i.uploaded_at }}</p>
+                    <button type="button" class="btn btn-raised btn-danger btn-xs js-delete-photo" data-url="{% url 'image_delete' i.id %}">
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                    </button>
+                    <button type="button" class="btn btn-raised btn-info btn-xs js-show-photo" data-url="{% url 'image_show' i.id %}">
+                        <span class="glyphicon glyphicon-picture"></span> Show photo
+                    </button>
+                </div>
+            </div>
+            <div class="list-group-separator"></div>
+        {% empty %}
+            <div class="alert alert-dismissible alert-warning">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4>Warning!</h4>
+                <p>No Photos</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -14,7 +14,10 @@
                 <li{% if request.path == '/games/' %} class="active" {% endif %}>
                     <a href="{% url 'game_list' %}">Games</a>
                 </li>
-                <li><a href="https://simpleisbetterthancomplex.com">simpleisbetterthancomplex.com</a></li>
+                <li{% if request.path == '/images/' %} class="active" {% endif %}>
+                    <a href="{% url 'image_list' %}">Images</a>
+                </li>
+                <li><a href="https://www.djangoproject.com/">djangoproject.com</a></li>
             </ul>
         </div>
     </div>

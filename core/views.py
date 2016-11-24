@@ -1,10 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
+from django.views import View
+from django.contrib import messages
+from django.core.urlresolvers import reverse_lazy
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import Game, Image
-from .forms import GameForm, ImageForm
+from .models import Game, Photo
+from .forms import GameForm, PhotoForm
 
 # Create your views here.
 def paginacao(request):
@@ -22,7 +25,6 @@ def game_list(request):
 
 def save_game_form(request, form, template_name):
     data = dict()
-    print(form)
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -38,10 +40,7 @@ def save_game_form(request, form, template_name):
     return JsonResponse(data)
 
 def game_create(request):
-    #if request.method == 'POST':
-    form = GameForm(request.POST or None,request.FILES or None,initial={'game_type': '1'})
-    #else:
-     #   form = GameForm()
+    form = GameForm(request.POST or None,initial={'game_type': '1'})
     return save_game_form(request, form, 'games/includes/partial_game_create.html')
 
 def game_update(request, pk):
@@ -70,8 +69,41 @@ def game_delete(request, pk):
         )
     return JsonResponse(data)
 
+def image_delete(request, pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        photo.delete()
+        data['form_is_valid'] = True
+        data['message'] = 'Removed successfully'
+    else:
+        context = {'photo': photo}
+        data['html_form'] = render_to_string('images/delete_image.html',context,request,)
+    return JsonResponse(data)
+
+def image_show(request,pk):
+    photo = get_object_or_404(Photo, pk=pk)
+    data = dict()
+    if photo is None:
+        data['form_is_valid'] = False
+    else:
+        data['form_is_valid'] = True
+        data['html_form'] = render_to_string('images/show_image.html',{'p': photo}, request, )
+    return JsonResponse(data)
+
 def create_image(request):
-    form = ImageForm(request.Post or None, request.FILES or None)
+    form = PhotoForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        form.save()
-        return redirect()
+        photo = form.save(commit=False)
+        photo.cover = True
+        photo.save()
+        messages.success(request,'Saved successfully')
+        return redirect('image_list')
+    return render(request,'images/create_image.html',{'form': form})
+
+def image_list(request):
+    lista = Photo.objects.all()
+    return render(request,'images/list_image.html',{'images': lista})
+
+#class UploadView(View):
+#    def get(self,reques):
