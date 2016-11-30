@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.template.loader import render_to_string
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import Game, Photo
+from .models import Game, Photo, GamePhoto
 from .forms import GameForm, PhotoForm
 
 # Create your views here.
@@ -51,11 +51,21 @@ def game_update(request, pk):
         form = GameForm(instance=game)
     return save_game_form(request, form, 'games/includes/partial_game_update.html')
 
+def game_show(request,pk):
+    game = get_object_or_404(Game, pk=pk)
+    photos = GamePhoto.objects.filter(game_id=pk)
+    return render(request,'games/show.html',{'g': game, 'photos': photos})
+
 def game_delete(request, pk):
     game = get_object_or_404(Game, pk=pk)
     data = dict()
     if request.method == 'POST':
-        game.delete()
+        photos = GamePhoto.objects.filter(game_id=pk)
+        if photos is not None:
+            for p in photos:
+                Photo.objects.get(id=p.photo_id).delete() #deletar da tabela photo
+            photos.delete() #deletar o album
+        game.delete() #deletar game
         data['form_is_valid'] = True
         data['message'] = 'Removed successfully'
         data['html_game_list'] = render_to_string('games/includes/partial_game_list.html', {
@@ -105,5 +115,22 @@ def image_list(request):
     lista = Photo.objects.all()
     return render(request,'images/list_image.html',{'images': lista})
 
-#class UploadView(View):
-#    def get(self,reques):
+class UploadView(View):
+    def post(self,request, pk):
+        form = PhotoForm(self.request.POST, self.request.FILES)
+        form.data['title'] = 'A' #faço isso para o form passar
+        print(form)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.title = photo.file.name
+            photo.save()
+            #save gallery
+            relation = GamePhoto()
+            relation.photo_id = photo.id
+            relation.game_id = pk
+            relation.save()
+
+            data = {'is_valid': True, 'name': photo.file.name, 'url': photo.file.url}
+        else:
+            data = {'is_valid': False}
+        return JsonResponse(data)

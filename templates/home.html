@@ -1,10 +1,27 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
 
 {% block header %}
     {% include 'includes/header.html' %}
 {% endblock  %}
 
 {% block content %}
-    <h1 class="page-header">Simple Ajax CRUD Example</h1>
-    <p class="lead">See the example live clicking in the Books menu.</p>
+    <div class="jumbotron">
+        <img src="{% static 'images/logos.png' %}" alt="">
+        <h2 class="page-header">Simple Ajax CRUD Example and Upload File</h2>
+        <p>Tools:</p>
+        <ul>
+            <li>Django 1.10</li>
+            <li>Python 3.5.2</li>
+            <li>Pycharm 2016.2</li>
+        </ul>
+        <p>Libs:</p>
+        <ul>
+            <li><a href="http://fezvrasta.github.io/bootstrap-material-design/#getting-started">Material Design</a></li>
+            <li><a href="https://github.com/CodeSeven/toastr">Toastr</a></li>
+            <li><a href="https://jquery.com/">Jquery</a></li>
+            <li><a href="https://github.com/T00rk/bootstrap-material-datetimepicker">Datepicker for bootstrap-material</a></li>
+            <li><a href="http://owlgraphic.com/owlcarousel/index.html">OWL Carousel</a></li>
+        </ul>
+    </div>
 {% endblock %}

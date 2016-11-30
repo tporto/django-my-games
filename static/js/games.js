@@ -18,6 +18,7 @@ $(function(){
             },
             success: function(data){
                 $("#modal-game .modal-content").html(data.html_form);
+                $('#id_publication_date').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
             }
         });
     };

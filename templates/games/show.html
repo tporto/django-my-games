@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+<style>
+    #owl-demo .item{
+        margin: 3px;
+    }
+    #owl-demo .item img{
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+</style>
+
+{% block content %}
+    <h1>{{ g.title }}</h1>
+    <img src="{{ g.image.file.url }}" alt="{{ g.title }}" width="200px" height="250px">
+    <br>
+    <br>
+    <p>Type: <strong>{{ g.get_game_type_display }}</strong></p>
+    <p>Developer: <strong>{{ g.developer }}</strong></p>
+    <p>Publication date: <strong>{{ g.publication_date }}</strong></p>
+
+    <button type="button" class="btn btn-raised btn-primary js-upload-photos">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
+    </button>
+
+    <input id="fileupload" type="file" name="file" multiple style="display: none;"
+       data-url="{% url 'upload' g.id %}"
+       data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">Gallery</div>
+        <div class="panel-body">
+            <table id="gallery" class="table table-bordered">
+                <tbody></tbody>
+            </table>
+            <div id="owl-demo" class="owl-carousel">
+                {% for p in photos %}
+                    <div class="item"><img src="{{ p.photo.file.url }}" alt="Img" width="270" height="200"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Uploading...</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'game_list' %}" class="btn btn-raised btn-danger">Back</a>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/jquery.fileupload.js' %}"></script>
+    <script src="{% static 'js/basic-upload.js' %}"></script>
+{% endblock %}

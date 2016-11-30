@@ -11,10 +11,11 @@ urlpatterns = [
     url(r'^games/create/$',views.game_create,name='game_create'),
     url(r'^games/(?P<pk>\d+)/update/$', views.game_update, name='game_update'),
     url(r'^games/(?P<pk>\d+)/delete/$', views.game_delete, name='game_delete'),
+    url(r'^games/(?P<pk>\d+)/show/$', views.game_show, name='game_show'),
     #Images
     url(r'^images/create/$',views.create_image,name='image_create'),
     url(r'^images/(?P<pk>\d+)/delete/$', views.image_delete, name='image_delete'),
     url(r'^images/(?P<pk>\d+)/show/$', views.image_show, name='image_show'),
     url(r'^images/$',views.image_list,name='image_list'),
-    #url(r'^images/upload/$',views.UploadView.as_view(),name='upload'),
+    url(r'^images/upload/(?P<pk>\d+)/$',views.UploadView.as_view(),name='upload'),
 ]
