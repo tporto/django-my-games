@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>My Games</title>
+    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
     <!-- Material Design fonts -->
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-material-datetimepicker.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pace.min.css' %}">
 </head>
 <body>
     {% include 'includes/header.html' %}  
@@ -38,6 +40,7 @@
     <script type="text/javascript" src="{% static 'js/moment.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap-material-datetimepicker.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/pace.min.js' %}"></script>
     <script>
         $(function(){
             $.material.init();
